@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  #this is the name of deployment
+  name: second-app-deployment
+spec:
+  # defines number of pods to create
+  replicas: 1
+  # must match with the label in pod for the pod to be managed by deployment
+  selector:
+    matchLabels:
+      app: second-app
+      tier: backend
+  template:
+    metadata: 
+      labels:
+        app: second-app
+        tier: backend
+    spec: 
+      # defines container info
+      containers:
+        - name: second-node
+          image: academind/kub-first-app:2
+        # - name: ...
+        #   image: ...
+
