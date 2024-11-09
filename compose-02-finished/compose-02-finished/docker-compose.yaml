@@ -5,6 +5,13 @@ services:
     # container_name: mongodb
     volumes: 
       - data:/data/db
+      #data: This is the name of a Docker named volume. Docker will create a volume with this name if it doesn’t already exist. Named volumes are stored by Docker outside the container’s filesystem, so they persist even if the container is removed or recreated.
+      #/data/db: This is the path inside the container where MongoDB expects to store its data files. MongoDB’s default data directory is /data/db, so by mapping the mongo-data volume to /data/db, MongoDB will read and write its database files in this location inside the container.
+      #Alternatively, you could use a bind mount to specify an exact path on the host machine. For example:
+      #volumes:
+      #   - ./mongo-data:/data/db  # Bind mount to a folder in the current directory
+      #This setup maps ./mongo-data on the host to /data/db in the container. With this setup, MongoDB data will be stored directly in the mongo-data directory in the current working directory, making it easier to locate and access data files on the host.
+    
     # environment: 
     #   MONGO_INITDB_ROOT_USERNAME: max
     #   MONGO_INITDB_ROOT_PASSWORD: secret
@@ -34,11 +41,13 @@ services:
       - '3000:3000'
     volumes: 
       - ./frontend/src:/app/src
+    #stdin_open is useful in scenarios where you want to interact with the container’s shell or run commands interactively
     stdin_open: true
     tty: true
     depends_on: 
       - backend
 
 volumes: 
+# mention the name of named volume
   data:
   logs:
